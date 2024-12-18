@@ -1,4 +1,3 @@
-// Menu mobile
 document.addEventListener('DOMContentLoaded', function() {
     const mobileMenu = document.querySelector('.mobile-menu');
     const navLinks = document.querySelector('.nav-links');
@@ -8,14 +7,12 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileMenu.classList.toggle('active');
     });
 });
-// Fonction pour filtrer par catégorie
 function filterByCategory(categoryId) {
     window.location.href = categoryId 
         ? 'index.php?category=' + categoryId 
         : 'index.php';
 }
 
-// Recherche en temps réel
 document.getElementById('search-courses')?.addEventListener('input', function(e) {
     const searchTerm = e.target.value.toLowerCase();
     const courses = document.querySelectorAll('.course-card');

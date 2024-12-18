@@ -1,4 +1,3 @@
-// Ajouter l'élément de transition au DOM
 document.body.insertAdjacentHTML('beforeend', '<div class="page-transition"></div>');
 const transition = document.querySelector('.page-transition');
 

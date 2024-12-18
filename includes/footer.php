@@ -1,5 +1,5 @@
 <footer>
-    <link rel="stylesheet" href="<?php echo SITE_URL; ?>/assets/css/style.css">
+    
     <div class="footer-content">
         <div class="footer-grid">
             <div class="about">

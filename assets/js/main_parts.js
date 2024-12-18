@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Garder uniquement la logique nécessaire
+    
     const carbonBar = document.querySelector(".carbon-bar");
     const carbonText = document.querySelector(".carbon-text");
     
@@ -12,4 +12,3 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-// Supprimer la deuxième partie qui crée un graphique en double
