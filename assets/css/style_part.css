@@ -1,24 +1,36 @@
+/* Reset de base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    padding-top: 70px; /* Correspond à la hauteur du header */
+    background-color: #1e1e1e; /* Fond sombre comme dans votre capture */
+}
+
 /* Conteneur principal */
 .part-container {
     max-width: 900px;
-    margin: 50px auto;
-    margin-top: 100px; /* Ajustez cette valeur en fonction de vos besoins */
+    margin: 0 auto;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: #2d2d2d; /* Fond sombre comme dans votre capture */
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
 /* Section vidéo */
 .video-section {
-    margin-bottom: 20px;
+    margin: 0 auto;
+    padding: 20px 0;
 }
 
 .video-section h2 {
     font-size: 1.8rem;
-    color: #2c3e50;
-    margin-bottom: 10px;
+    color: #ffffff; /* Texte blanc pour contraste sur fond sombre */
+    margin: 0 0 20px 0; /* Supprime la marge du haut */
+    text-align: left;
 }
 
 .video-section video {
@@ -26,31 +38,39 @@
     max-height: 500px;
     border-radius: 8px;
     margin: 20px 0;
+    background: #000;
 }
 
+/* Carbon label */
 .carbon-label {
-    font-size: 1.2rem;
-    color: #27ae60;
-    margin-top: 10px;
-    font-weight: bold;
-}
-
-/* Assurez-vous que le footer ne chevauche rien */
-footer {
-    margin-top: 50px;
-}
-#carbon-dashboard {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #1f1f1f;
+    margin: 15px 0;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
     color: #ffffff;
-    border-radius: 10px;
-    width: 100%;
-    max-width: 600px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-#carbon-chart {
-    width: 100%;
-    height: 250px;
+/* Progress button */
+.progress-button {
+    margin: 20px 0;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-success {
+    background-color: #45a049;
+    color: white;
+}
+
+.progress-button:hover {
+    opacity: 0.9;
 }
