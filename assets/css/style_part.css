@@ -1,0 +1,56 @@
+/* Conteneur principal */
+.part-container {
+    max-width: 900px;
+    margin: 50px auto;
+    margin-top: 100px; /* Ajustez cette valeur en fonction de vos besoins */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Section vidéo */
+.video-section {
+    margin-bottom: 20px;
+}
+
+.video-section h2 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.video-section video {
+    width: 100%;
+    max-height: 500px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.carbon-label {
+    font-size: 1.2rem;
+    color: #27ae60;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* Assurez-vous que le footer ne chevauche rien */
+footer {
+    margin-top: 50px;
+}
+#carbon-dashboard {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #1f1f1f;
+    color: #ffffff;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#carbon-chart {
+    width: 100%;
+    height: 250px;
+}
