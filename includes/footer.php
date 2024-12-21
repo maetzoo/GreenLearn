@@ -18,13 +18,13 @@
                     <li><a href="<?php echo SITE_URL; ?>/courses">Formations</a></li>
                     <li><a href="<?php echo SITE_URL; ?>/blog.php">Blog</a></li>
                     <li><a href="<?php echo SITE_URL; ?>/about.php">À propos</a></li>
-                    <li><a href="<?php echo SITE_URL; ?>/contact.php">Contact</a></li>
+                    
                 </ul>
             </div>
             <div class="contact-info">
                 <h3>Contact</h3>
                 <p>Email: contact@greenlearn.com</p>
-                <p>Tel: +XX XXX XXX XXX</p>
+                
             </div>
         </div>
         <div class="footer-bottom">

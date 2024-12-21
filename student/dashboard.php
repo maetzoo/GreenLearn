@@ -94,6 +94,7 @@ $user_id = $_SESSION['user_id'];
                 <canvas id="carbonChart"></canvas>
             </div>
         </div>
+
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
@@ -113,7 +114,7 @@ $user_id = $_SESSION['user_id'];
             }
 
             const ctx = document.getElementById('carbonChart').getContext('2d');
-            const savedChartData = JSON.parse(localStorage.getItem('carbonChartData')) || {
+            const savedChartData = JSON.parse(localStorage.getItem(chartKey)) || {
                 labels: [],
                 co2Data: [],
                 dataConsumption: []

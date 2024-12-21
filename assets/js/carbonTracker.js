@@ -3,8 +3,9 @@ class CarbonTracker {
         const userId = document.documentElement.getAttribute('data-user-id');
         this.userId = userId || 'default';
         this.sessionKey = `carbonSession_${this.userId}`;
-        this.metricsKey = `carbonMetrics_${this.userId}`
-        this.timeKey = `sessionTime_${this.userId}`;;
+        this.metricsKey = `carbonMetrics_${this.userId}`;
+        this.chartKey = `carbonChartData_${this.userId}`;
+        this.timeKey = `sessionTime_${this.userId}`;
 
         this.initializeSession();
         this.startTracking();
@@ -14,6 +15,7 @@ class CarbonTracker {
     initializeSession() {
         const savedSession = localStorage.getItem(this.sessionKey);
         const savedTime = localStorage.getItem(this.timeKey);
+        
         if (savedSession) {
             const session = JSON.parse(savedSession);
             this.startTime = session.startTime;
@@ -25,8 +27,8 @@ class CarbonTracker {
             this.co2Total = 0;
             this.dataTotal = 0;
             this.lastTransferSize = 0;
-            this.saveSession();
         }
+
         if (savedTime) {
             this.startTime = parseInt(savedTime);
         } else {
@@ -34,8 +36,17 @@ class CarbonTracker {
             localStorage.setItem(this.timeKey, this.startTime.toString());
         }
 
+        // Initialiser ou restaurer les données du graphique
+        const savedChartData = localStorage.getItem(this.chartKey);
+        if (!savedChartData) {
+            this.saveChartData({
+                labels: [],
+                co2Data: [],
+                dataConsumption: []
+            });
+        }
+
         this.saveSession();
-    
     }
 
     startTracking() {
@@ -74,13 +85,14 @@ class CarbonTracker {
             const resources = performance.getEntriesByType('resource');
             const navigation = performance.getEntriesByType('navigation')[0];
             let totalTransferSize = navigation ? navigation.transferSize : 0;
+            
             resources.forEach(resource => {
                 totalTransferSize += resource.transferSize || 0;
             });
 
             const newData = totalTransferSize - this.lastTransferSize;
             this.lastTransferSize = totalTransferSize;
-            return newData / (1024 * 1024);
+            return newData / (1024 * 1024); // Convertir en MB
         } catch (error) {
             console.error('Erreur lors de la récupération des données réseau:', error);
             return 0;
@@ -95,6 +107,34 @@ class CarbonTracker {
             lastTransferSize: this.lastTransferSize
         };
         localStorage.setItem(this.sessionKey, JSON.stringify(sessionData));
+    }
+
+    saveChartData(chartData) {
+        localStorage.setItem(this.chartKey, JSON.stringify(chartData));
+    }
+
+    getChartData() {
+        const savedData = localStorage.getItem(this.chartKey);
+        return savedData ? JSON.parse(savedData) : null;
+    }
+
+    cleanOldData() {
+        if (!window.carbonChart?.data) return;
+
+        const MAX_POINTS = 60; // Garde 1 heure de données
+        if (window.carbonChart.data.labels.length > MAX_POINTS) {
+            window.carbonChart.data.labels.shift();
+            window.carbonChart.data.datasets[0].data.shift();
+            window.carbonChart.data.datasets[1].data.shift();
+            window.carbonChart.update();
+
+            // Mettre à jour le localStorage avec les données nettoyées
+            this.saveChartData({
+                labels: window.carbonChart.data.labels,
+                co2Data: window.carbonChart.data.datasets[0].data,
+                dataConsumption: window.carbonChart.data.datasets[1].data
+            });
+        }
     }
 
     async updateMetrics() {
@@ -133,28 +173,65 @@ class CarbonTracker {
         if (dataElement) dataElement.textContent = `${metrics.dataTotal.toFixed(2)} MB`;
         if (timeElement) timeElement.textContent = this.formatTime(metrics.sessionTime);
 
-        if (currentMinute > this.lastMinute && window.carbonChart?.data?.labels) {
-            const lastIndex = window.carbonChart.data.datasets[0].data.length - 1;
-            const lastCO2 = window.carbonChart.data.datasets[0].data[lastIndex];
-            const lastData = window.carbonChart.data.datasets[1].data[lastIndex];
-            
-            // N'ajouter un point que si les valeurs ont changé ou si c'est le premier point
-            if (lastIndex === -1 || lastCO2 !== metrics.co2Total || lastData !== metrics.dataTotal) {
+        if (window.carbonChart?.data?.labels) {
+            const shouldAddPoint = 
+                window.carbonChart.data.labels.length === 0 || 
+                currentMinute > this.lastMinute;
+
+            if (shouldAddPoint) {
                 window.carbonChart.data.labels.push(currentMinute);
                 window.carbonChart.data.datasets[0].data.push(metrics.co2Total);
                 window.carbonChart.data.datasets[1].data.push(metrics.dataTotal);
                 window.carbonChart.update();
-    
-                const chartKey = `carbonChartData_${this.userId}`;
-                const chartData = {
+
+                // Sauvegarder les données du graphique
+                this.saveChartData({
                     labels: window.carbonChart.data.labels,
                     co2Data: window.carbonChart.data.datasets[0].data,
-                    dataConsumption: window.carbonChart.data.datasets[1].data,
-                };
-                localStorage.setItem(chartKey, JSON.stringify(chartData));
-    
+                    dataConsumption: window.carbonChart.data.datasets[1].data
+                });
+
                 this.lastMinute = currentMinute;
+                this.cleanOldData();
             }
         }
     }
+
+    resetTracker() {
+        // Réinitialiser les valeurs
+        this.startTime = Date.now();
+        this.co2Total = 0;
+        this.dataTotal = 0;
+        this.lastTransferSize = 0;
+        this.lastMinute = -1;
+
+        // Nettoyer le localStorage
+        localStorage.removeItem(this.sessionKey);
+        localStorage.removeItem(this.metricsKey);
+        localStorage.removeItem(this.chartKey);
+        localStorage.removeItem(this.timeKey);
+
+        // Réinitialiser le graphique s'il existe
+        if (window.carbonChart) {
+            window.carbonChart.data.labels = [];
+            window.carbonChart.data.datasets[0].data = [];
+            window.carbonChart.data.datasets[1].data = [];
+            window.carbonChart.update();
+        }
+
+        // Sauvegarder la nouvelle session
+        this.saveSession();
+
+        // Mettre à jour l'affichage
+        const co2Element = document.getElementById('co2-amount');
+        const dataElement = document.getElementById('data-consumed');
+        const timeElement = document.getElementById('session-time');
+
+        if (co2Element) co2Element.textContent = '0.00 g';
+        if (dataElement) dataElement.textContent = '0.00 MB';
+        if (timeElement) timeElement.textContent = '00:00:00';
+    }
 }
+
+// Initialisation globale
+window.globalCarbonTracker = new CarbonTracker();

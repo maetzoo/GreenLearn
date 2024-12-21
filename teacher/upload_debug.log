@@ -15,3 +15,18 @@
 [18-Dec-2024 14:47:55 Europe/Berlin] [14:47:55] === TRAITEMENT TERMINÉ AVEC SUCCÈS ===
 [18-Dec-2024 16:05:43 Europe/Berlin] [16:05:43] Accès refusé - Utilisateur non autorisé
 [18-Dec-2024 16:05:45 Europe/Berlin] [16:05:45] Accès refusé - Utilisateur non autorisé
+[19-Dec-2024 09:30:24 Europe/Berlin] [09:30:24] === DÉBUT TRAITEMENT UPLOAD ===
+[19-Dec-2024 09:30:24 Europe/Berlin] [09:30:24] Création des dossiers
+[19-Dec-2024 09:30:24 Europe/Berlin] [09:30:24] Début upload vidéo temporaire
+[19-Dec-2024 09:30:24 Europe/Berlin] [09:30:24] Upload vidéo temporaire terminé
+[19-Dec-2024 09:30:24 Europe/Berlin] [09:30:24] Début compression
+[19-Dec-2024 09:30:24 Europe/Berlin] [09:30:24] Début compression vidéo - Qualité: high
+[19-Dec-2024 09:30:24 Europe/Berlin] [09:30:24] Taille fichier entrée: 27616045 bytes
+[19-Dec-2024 09:30:24 Europe/Berlin] [09:30:24] Exécution commande FFmpeg: "C:\xampp\php\ffmpeg.exe" -y -i "../uploads/temp/6763d9a01af40.mp4" -vf "scale='min(1920,iw)':'min(1080,ih)':force_original_aspect_ratio=decrease" -c:v libx264 -crf 23 -preset veryfast -c:a aac -b:a 96k -movflags +faststart "../uploads/videos/6763d9a01af44.mp4" 2>&1
+[19-Dec-2024 09:30:55 Europe/Berlin] [09:30:55] Compression terminée - Taille fichier sortie: 3829636 bytes
+[19-Dec-2024 09:30:55 Europe/Berlin] [09:30:55] Compression terminée
+[19-Dec-2024 09:30:55 Europe/Berlin] [09:30:55] Traitement du PDF
+[19-Dec-2024 09:30:55 Europe/Berlin] [09:30:55] Début upload PDF
+[19-Dec-2024 09:30:55 Europe/Berlin] [09:30:55] Upload PDF réussi: ../uploads/pdfs/6763d9bf5398c.pdf
+[19-Dec-2024 09:30:55 Europe/Berlin] [09:30:55] Insertion en base de données
+[19-Dec-2024 09:30:55 Europe/Berlin] [09:30:55] === TRAITEMENT TERMINÉ AVEC SUCCÈS ===
