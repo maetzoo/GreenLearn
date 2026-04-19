@@ -6,7 +6,8 @@
 *
 *  CORRECTIONS APPORTEES :
 *  1. Entites HTML corrigees (&amp; -> & , &gt; -> > , &lt; -> <)
-*  2. f pre-calcule comme parametre via Swamee-Jain pour chaque
+*  2. eps renomme en rugos (eps est un mot reserve GAMS = machine epsilon)
+*  3. f pre-calcule comme parametre via Swamee-Jain pour chaque
 *     diametre (f etait declare variable sans equation le calculant)
 *  3. Toutes les grandeurs hydrauliques pre-calculees par diametre :
 *     le modele devient un MIP lineaire (plus robuste que MINLP)
@@ -38,7 +39,7 @@ Parameters
     L        "longueur de la conduite [m]"     / 400       /
     rho      "densite du fluide [kg/m3]"       / 1000      /
     mu       "viscosite dynamique [Pa.s]"      / 0.001     /
-    eps      "rugosite absolue [m]"            / 0.00015   /
+    rugos    "rugosite absolue [m]"            / 0.00015   /
     g        "gravite [m/s2]"                  / 9.81      /
     eta      "rendement de la pompe [-]"       / 0.75      /
     H        "hauteur statique [m]"            / 30        /
@@ -86,8 +87,8 @@ VM(i)     = Q / SM(i) ;
 ReM(i)    = (rho * VM(i) * dM(i)) / mu ;
 
 *  C6 - Coefficient de friction : formule de Swamee-Jain
-*        f = 0.25 / [log10(eps/(3.7*D) + 5.74/Re^0.9)]^2
-fM(i)     = 0.25 / ( log10( eps / (3.7 * dM(i))
+*        f = 0.25 / [log10(rugos/(3.7*D) + 5.74/Re^0.9)]^2
+fM(i)     = 0.25 / ( log10( rugos / (3.7 * dM(i))
                            + 5.74 / (ReM(i)**0.9) ) )**2 ;
 
 *  C7 - Pertes de charge (Darcy-Weisbach)
